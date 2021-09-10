@@ -14,8 +14,8 @@ class CustomDrawer extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Color.fromARGB(255, 203, 236, 241),
-            Colors.white,
+            Color.fromARGB(255, 255, 255, 255),
+            Color.fromARGB(255, 253, 181, 168),
           ],
         ),
       ),
