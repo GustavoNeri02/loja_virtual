@@ -1,9 +1,12 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/tiles/drawer_tile.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({Key? key}) : super(key: key);
+  final PageController pageController;
+
+  const CustomDrawer(this.pageController);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +38,7 @@ class CustomDrawer extends StatelessWidget {
                   child: Stack(
                     children: [
                       Positioned(
-                        top: 8,
+                        top: 0,
                         bottom: 0,
                         child: Text(
                           "Flutter's\nclothing",
@@ -45,9 +48,44 @@ class CustomDrawer extends StatelessWidget {
                           ),
                         ),
                       ),
+                      Positioned(
+                        bottom: 0,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Olá",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold
+                              ),
+                            ),GestureDetector(
+                              onTap: (){
+                                print('entre ou cadastre-se aqui');
+                              },
+                              child: Text(
+                                "Entre ou cadastre-se aqui",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).primaryColor
+                                ),
+                              ),
+                            ),
+
+                          ],
+                        )
+                      ),
                     ],
                   ),
-                )
+                ),
+                Divider(
+                  endIndent: 32,
+                ),
+                DrawerTile(Icons.home, "Início", pageController, 0),
+                DrawerTile(Icons.list, "Produtos", pageController, 1),
+                DrawerTile(Icons.playlist_add_check, "Meus pedidos", pageController, 2),
+                DrawerTile(Icons.location_on, "Encontre uma loja", pageController, 3),
               ],
             )
           ],
