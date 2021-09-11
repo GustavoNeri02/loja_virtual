@@ -1,6 +1,7 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/tiles/category_tile.dart';
 
 class ProductsTab extends StatelessWidget {
   @override
@@ -10,11 +11,13 @@ class ProductsTab extends StatelessWidget {
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
         } else {
-          return ListView(
-            children: [
-
-            ],
-          );
+          var dividedTiles = ListTile.divideTiles(
+                  tiles: snapshot.data!.documents.map((doc) {
+                    return CategoryTile(doc);
+                  }).toList(),
+                  color: Colors.grey[500])
+              .toList();
+          return ListView(children: dividedTiles);
         }
       },
       future: Firestore.instance.collection("products").getDocuments(),
