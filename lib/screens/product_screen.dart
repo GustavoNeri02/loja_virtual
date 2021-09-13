@@ -82,7 +82,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       return GestureDetector(
                         onTap: (){
                           setState(() {
-                            widget.size = size;
+                            widget.size = widget.size == size? "" : size;
                           });
                         },
                         child: Container(
@@ -100,6 +100,28 @@ class _ProductScreenState extends State<ProductScreen> {
                       );
                     }).toList(),
                   ),
+                ),
+                SizedBox(height: 16),
+                SizedBox(
+                  height: 44,
+                  child: ElevatedButton(
+                    onPressed: widget.size == "" ? null : (){},
+                    child: Text(
+                      "Adicionar ao carrinho",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    style: ElevatedButton.styleFrom(primary: widget.size == ""? Colors.grey: primaryColor),
+                  ),
+                ),
+                SizedBox(height: 16),
+                Text("Descrição:",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Text(widget.product.description,
+                  style: TextStyle(fontSize: 16),
                 )
               ],
             ),
