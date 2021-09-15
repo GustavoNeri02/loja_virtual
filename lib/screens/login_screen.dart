@@ -43,9 +43,7 @@ class LoginScreen extends StatelessWidget {
                 }
               },
             ),
-            SizedBox(
-              height: 16,
-            ),
+            SizedBox(height: 16),
             TextFormField(
                 obscureText: true,
                 decoration: InputDecoration(hintText: "Senha"),
@@ -65,9 +63,7 @@ class LoginScreen extends StatelessWidget {
                 style: TextButton.styleFrom(padding: EdgeInsets.zero),
               ),
             ),
-            SizedBox(
-              height: 16,
-            ),
+            SizedBox(height: 16),
             SizedBox(
               height: 44,
               child: ElevatedButton(

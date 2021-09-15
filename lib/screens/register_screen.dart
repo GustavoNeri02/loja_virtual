@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class RegisteScreen extends StatelessWidget {
   final _formkey = GlobalKey<FormState>();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,62 +21,65 @@ class RegisteScreen extends StatelessWidget {
               ),
               keyboardType: TextInputType.name,
               textCapitalization: TextCapitalization.words,
-              validator: (text){
+              validator: (text) {
                 if (text == null || text.isEmpty || !text.contains(" ")) {
                   return "Nome completo inválido!";
                 }
               },
             ),
+            SizedBox(height: 16),
             TextFormField(
               decoration: InputDecoration(
                 hintText: "E-mail",
               ),
               keyboardType: TextInputType.emailAddress,
-              validator: (text){
+              validator: (text) {
                 if (text == null || text.isEmpty || !text.contains("@")) {
                   return "E-mail inválido!";
                 }
               },
             ),
+            SizedBox(height: 16),
             TextFormField(
               decoration: InputDecoration(
                 hintText: "Senha",
               ),
               obscureText: true,
-              validator: (text){
+              validator: (text) {
                 if (text == null || text.isEmpty || text.length < 6) {
                   return "Senha inválida!";
                 }
               },
             ),
+            SizedBox(height: 16),
             TextFormField(
               decoration: InputDecoration(
                 hintText: "Endereço",
               ),
               keyboardType: TextInputType.streetAddress,
-              validator: (text){
+              validator: (text) {
                 if (text == null || text.isEmpty || text.length < 10) {
                   return "Endereço inválido!";
                 }
               },
             ),
-            SizedBox(height: 16,),
+            SizedBox(
+              height: 16,
+            ),
             SizedBox(
               height: 44,
               child: ElevatedButton(
-                  onPressed: (){
-                    if(_formkey.currentState!.validate()){
-
-                    }
-                  },
-                  child: Text("Criar Conta",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                style: ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
+                onPressed: () {
+                  if (_formkey.currentState!.validate()) {}
+                },
+                child: Text(
+                  "Criar Conta",
+                  style: TextStyle(fontSize: 18),
+                ),
+                style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).primaryColor),
               ),
             ),
-
-
           ],
         ),
       ),
