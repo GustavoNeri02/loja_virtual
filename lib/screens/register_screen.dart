@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/screens/home_screen.dart';
 
 class RegisteScreen extends StatelessWidget {
   final _formkey = GlobalKey<FormState>();
@@ -70,7 +71,9 @@ class RegisteScreen extends StatelessWidget {
               height: 44,
               child: ElevatedButton(
                 onPressed: () {
-                  if (_formkey.currentState!.validate()) {}
+                  if (_formkey.currentState!.validate()) {
+
+                  }
                 },
                 child: Text(
                   "Criar Conta",
