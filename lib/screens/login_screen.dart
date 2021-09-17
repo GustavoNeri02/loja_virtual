@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:loja_virtual/models/user_model.dart';
 import 'package:loja_virtual/screens/register_screen.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class LoginScreen extends StatelessWidget {
   final _formkey = GlobalKey<FormState>();
@@ -27,63 +29,68 @@ class LoginScreen extends StatelessWidget {
           )
         ],
       ),
-      body: Form(
-        key: _formkey,
-        child: ListView(
-          padding: EdgeInsets.all(16),
-          children: [
-            TextFormField(
-              decoration: InputDecoration(
-                hintText: "E-mail",
-              ),
-              keyboardType: TextInputType.emailAddress,
-              validator: (text) {
-                if (text == null || text.isEmpty || !text.contains("@")) {
-                  return "E-mail inválido!";
-                }
-              },
-            ),
-            SizedBox(height: 16),
-            TextFormField(
-                obscureText: true,
-                decoration: InputDecoration(hintText: "Senha"),
-                validator: (text) {
-                  if (text == null || text.isEmpty || text.length < 6) {
-                    return "Senha inválida!";
-                  }
-                }),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () {},
-                child: Text(
-                  "Esqueci minha senha",
-                  textAlign: TextAlign.end,
+      body: ScopedModelDescendant<UserModel>(
+        builder: (context, child, model){
+          if(model.isLoading) return Center(child: CircularProgressIndicator());
+          return Form(
+            key: _formkey,
+            child: ListView(
+              padding: EdgeInsets.all(16),
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(
+                    hintText: "E-mail",
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (text) {
+                    if (text == null || text.isEmpty || !text.contains("@")) {
+                      return "E-mail inválido!";
+                    }
+                  },
                 ),
-                style: TextButton.styleFrom(padding: EdgeInsets.zero),
-              ),
-            ),
-            SizedBox(height: 16),
-            SizedBox(
-              height: 44,
-              child: ElevatedButton(
-                onPressed: () {
-                  if(_formkey.currentState!.validate()){
-
-                  }
-                },
-                child: Text(
-                  "Entrar",
-                  style: TextStyle(
-                    fontSize: 18,
+                SizedBox(height: 16),
+                TextFormField(
+                    obscureText: true,
+                    decoration: InputDecoration(hintText: "Senha"),
+                    validator: (text) {
+                      if (text == null || text.isEmpty || text.length < 6) {
+                        return "Senha inválida!";
+                      }
+                    }),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Esqueci minha senha",
+                      textAlign: TextAlign.end,
+                    ),
+                    style: TextButton.styleFrom(padding: EdgeInsets.zero),
                   ),
                 ),
-                style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor),
-              ),
+                SizedBox(height: 16),
+                SizedBox(
+                  height: 44,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if(_formkey.currentState!.validate()){
+                      }
+                      model.signIn();
+                    },
+                    child: Text(
+                      "Entrar",
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        primary: Theme.of(context).primaryColor),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
