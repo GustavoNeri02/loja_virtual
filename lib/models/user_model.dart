@@ -8,7 +8,7 @@ class UserModel extends Model {
 
   FirebaseAuth _auth = FirebaseAuth.instance; // única instância do Firebase
 
-  late FirebaseUser firebaseUser;
+  FirebaseUser? firebaseUser;
   Map<String, dynamic> userData = Map(); //username, adress, email
 
   bool isLoading = false;
@@ -48,11 +48,20 @@ class UserModel extends Model {
 
   void recoverPass() {}
 
-  void isLoggedIn() {}
+  bool isLoggedIn() {
+    return firebaseUser != null;
+  }
 
   Future _saveUserData(Map<String, dynamic> userData) async {
     this.userData = userData;
-    await Firestore.instance.collection("Users").document(firebaseUser.uid).setData(userData);
+    await Firestore.instance.collection("Users").document(firebaseUser!.uid).setData(userData);
+  }
+
+  void signOut() async{
+    await _auth.signOut();
+    userData = Map();
+    firebaseUser = null;
+    notifyListeners();
   }
 }
 
