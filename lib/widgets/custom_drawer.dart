@@ -56,7 +56,7 @@ class CustomDrawer extends StatelessWidget {
                             children: [
                               Text(
                                 model.isLoggedIn()
-                                    ? "Olá ${model.userData["nome"]}!"
+                                    ? "Olá ${model.userData["name"]}!"
                                     : "Olá Visitante!",
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
