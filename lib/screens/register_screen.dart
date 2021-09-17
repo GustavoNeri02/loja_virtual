@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:loja_virtual/screens/home_screen.dart';
+import 'package:loja_virtual/models/user_model.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class RegisteScreen extends StatelessWidget {
   final _formkey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -11,81 +16,105 @@ class RegisteScreen extends StatelessWidget {
         title: Text("Criar Conta"),
         centerTitle: true,
       ),
-      body: Form(
-        key: _formkey,
-        child: ListView(
-          padding: EdgeInsets.all(16),
-          children: [
-            TextFormField(
-              decoration: InputDecoration(
-                hintText: "Nome Completo",
-              ),
-              keyboardType: TextInputType.name,
-              textCapitalization: TextCapitalization.words,
-              validator: (text) {
-                if (text == null || text.isEmpty || !text.contains(" ")) {
-                  return "Nome completo inválido!";
-                }
-              },
-            ),
-            SizedBox(height: 16),
-            TextFormField(
-              decoration: InputDecoration(
-                hintText: "E-mail",
-              ),
-              keyboardType: TextInputType.emailAddress,
-              validator: (text) {
-                if (text == null || text.isEmpty || !text.contains("@")) {
-                  return "E-mail inválido!";
-                }
-              },
-            ),
-            SizedBox(height: 16),
-            TextFormField(
-              decoration: InputDecoration(
-                hintText: "Senha",
-              ),
-              obscureText: true,
-              validator: (text) {
-                if (text == null || text.isEmpty || text.length < 6) {
-                  return "Senha inválida!";
-                }
-              },
-            ),
-            SizedBox(height: 16),
-            TextFormField(
-              decoration: InputDecoration(
-                hintText: "Endereço",
-              ),
-              keyboardType: TextInputType.streetAddress,
-              validator: (text) {
-                if (text == null || text.isEmpty || text.length < 10) {
-                  return "Endereço inválido!";
-                }
-              },
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            SizedBox(
-              height: 44,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (_formkey.currentState!.validate()) {
-
-                  }
-                },
-                child: Text(
-                  "Criar Conta",
-                  style: TextStyle(fontSize: 18),
+      body: ScopedModelDescendant<UserModel>(
+        builder: (context, child, model) {
+          if (model.isLoading) 
+            return Center(child: CircularProgressIndicator(),);
+          return Form(
+            key: _formkey,
+            child: ListView(
+              padding: EdgeInsets.all(16),
+              children: [
+                TextFormField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    hintText: "Nome Completo",
+                  ),
+                  keyboardType: TextInputType.name,
+                  textCapitalization: TextCapitalization.words,
+                  validator: (text) {
+                    if (text == null || text.isEmpty || !text.contains(" ")) {
+                      return "Nome completo inválido!";
+                    }
+                  },
                 ),
-                style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor),
-              ),
+                SizedBox(height: 16),
+                TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    hintText: "E-mail",
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (text) {
+                    if (text == null || text.isEmpty || !text.contains("@")) {
+                      return "E-mail inválido!";
+                    }
+                  },
+                ),
+                SizedBox(height: 16),
+                TextFormField(
+                  controller: _passController,
+                  decoration: InputDecoration(
+                    hintText: "Senha",
+                  ),
+                  obscureText: true,
+                  validator: (text) {
+                    if (text == null || text.isEmpty || text.length < 6) {
+                      return "Senha inválida!";
+                    }
+                  },
+                ),
+                SizedBox(height: 16),
+                TextFormField(
+                  controller: _addressController,
+                  decoration: InputDecoration(
+                    hintText: "Endereço",
+                  ),
+                  keyboardType: TextInputType.streetAddress,
+                  validator: (text) {
+                    if (text == null || text.isEmpty || text.length < 10) {
+                      return "Endereço inválido!";
+                    }
+                  },
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                SizedBox(
+                  height: 44,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formkey.currentState!.validate()) {
+                        Map<String, dynamic> userData = {
+                          "name": _nameController.text,
+                          "email": _emailController.text,
+                          "adress": _addressController.text
+                        };
+                        model.signUp(
+                            userdata: userData,
+                            pass: _passController.text,
+                            onSuccess: _onSuccess,
+                            onFail: _onFail
+                        );
+                      }
+                    },
+                    child: Text(
+                      "Criar Conta",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        primary: Theme.of(context).primaryColor),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
+
+  void _onSuccess() {}
+
+  void _onFail() {}
 }

@@ -25,7 +25,7 @@ class UserModel extends Model {
         email: userdata["email"], password: pass)
         .then((user) async {
           firebaseUser = user;
-          await _saveUserData(userData);
+          await _saveUserData(userdata);
 
           onSuccess();
           isLoading = false;
