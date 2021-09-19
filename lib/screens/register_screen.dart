@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/models/user_model.dart';
 // ignore: import_of_legacy_library_into_null_safe
@@ -15,17 +14,14 @@ class RegisteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     void _onSuccess() {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Usuario criado com sucesso!"),
         duration: Duration(seconds: 1),
         backgroundColor: Theme.of(context).primaryColor,
       ));
-      Future.delayed(Duration(seconds: 1)).then((value) => {
-        Navigator.of(context).pop()
-      });
+      Future.delayed(Duration(seconds: 1))
+          .then((value) => {Navigator.of(context).pop()});
     }
 
     void _onFail() {
@@ -35,7 +31,6 @@ class RegisteScreen extends StatelessWidget {
         backgroundColor: Colors.redAccent,
         duration: Duration(seconds: 2),
       ));
-
     }
 
     return Scaffold(
@@ -46,8 +41,10 @@ class RegisteScreen extends StatelessWidget {
       ),
       body: ScopedModelDescendant<UserModel>(
         builder: (context, child, model) {
-          if (model.isLoading) 
-            return Center(child: CircularProgressIndicator(),);
+          if (model.isLoading)
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           return Form(
             key: _formkey,
             child: ListView(
@@ -122,8 +119,7 @@ class RegisteScreen extends StatelessWidget {
                             userdata: userData,
                             pass: _passController.text,
                             onSuccess: _onSuccess,
-                            onFail: _onFail
-                        );
+                            onFail: _onFail);
                       }
                     },
                     child: Text(
@@ -140,7 +136,5 @@ class RegisteScreen extends StatelessWidget {
         },
       ),
     );
-
-
   }
 }
