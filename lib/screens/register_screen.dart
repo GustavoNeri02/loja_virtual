@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/models/user_model.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:scoped_model/scoped_model.dart';
 
 class RegisteScreen extends StatelessWidget {
@@ -14,6 +15,29 @@ class RegisteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    void _onSuccess() {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(
+        content: Text("Usuario criado com sucesso!"),
+        duration: Duration(seconds: 1),
+        backgroundColor: Theme.of(context).primaryColor,
+      ));
+      Future.delayed(Duration(seconds: 1)).then((value) => {
+        Navigator.of(context).pop()
+      });
+    }
+
+    void _onFail() {
+      ScaffoldMessenger.of(_scaffoldKey.currentState!.context)
+          .showSnackBar(SnackBar(
+        content: Text("Usuario não criado!\nTente novamente!"),
+        backgroundColor: Colors.redAccent,
+        duration: Duration(seconds: 2),
+      ));
+
+    }
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -117,28 +141,6 @@ class RegisteScreen extends StatelessWidget {
       ),
     );
 
-
-  }
-
-  void _onSuccess() {
-    ScaffoldMessenger.of(_scaffoldKey.currentState!.context)
-        .showSnackBar(SnackBar(
-        content: Text("Usuario criado com sucesso!"),
-      duration: Duration(seconds: 2),
-      backgroundColor: Theme.of(_scaffoldKey.currentState!.context).primaryColor,
-    ));
-    Future.delayed(Duration(seconds: 2)).then((value) => {
-      Navigator.of(_scaffoldKey.currentState!.context).pop()
-    });
-  }
-
-  void _onFail() {
-    ScaffoldMessenger.of(_scaffoldKey.currentState!.context)
-        .showSnackBar(SnackBar(
-      content: Text("Usuario não criado!\nTente novamente!"),
-      backgroundColor: Colors.redAccent,
-      duration: Duration(seconds: 2),
-    ));
 
   }
 }

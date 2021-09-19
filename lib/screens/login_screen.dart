@@ -2,14 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:loja_virtual/models/user_model.dart';
 import 'package:loja_virtual/screens/register_screen.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:scoped_model/scoped_model.dart';
 
+// ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
-  final _formkey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    void _onSuccess() {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Usuario logado com sucesso!"),
+        duration: Duration(seconds: 1),
+        backgroundColor: Theme.of(context).primaryColor,
+      ));
+      Future.delayed(Duration(seconds: 1))
+          .then((value) => {Navigator.of(context).pop()});
+    }
+
+    void _onFail() {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Erro ao Logar"),
+        backgroundColor: Colors.redAccent,
+        duration: Duration(seconds: 2),
+      ));
+    }
+
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text("Entrar"),
         centerTitle: true,
@@ -30,14 +54,16 @@ class LoginScreen extends StatelessWidget {
         ],
       ),
       body: ScopedModelDescendant<UserModel>(
-        builder: (context, child, model){
-          if(model.isLoading) return Center(child: CircularProgressIndicator());
+        builder: (context, child, model) {
+          if (model.isLoading)
+            return Center(child: CircularProgressIndicator());
           return Form(
-            key: _formkey,
+            key: _formKey,
             child: ListView(
               padding: EdgeInsets.all(16),
               children: [
                 TextFormField(
+                  controller: _emailController,
                   decoration: InputDecoration(
                     hintText: "E-mail",
                   ),
@@ -50,6 +76,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 TextFormField(
+                    controller: _passwordController,
                     obscureText: true,
                     decoration: InputDecoration(hintText: "Senha"),
                     validator: (text) {
@@ -73,9 +100,12 @@ class LoginScreen extends StatelessWidget {
                   height: 44,
                   child: ElevatedButton(
                     onPressed: () {
-                      if(_formkey.currentState!.validate()){
-                      }
-                      model.signIn();
+                      if (_formKey.currentState!.validate()) {}
+                      model.signIn(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                          onFail: _onFail,
+                          onSuccess: _onSuccess);
                     },
                     child: Text(
                       "Entrar",
