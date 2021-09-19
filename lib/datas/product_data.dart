@@ -1,3 +1,4 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProductData{
@@ -17,5 +18,13 @@ class ProductData{
     images = snapshot.data["images"];
     sizes = snapshot.data["sizes"];
 
+  }
+
+  Map<String, dynamic> toResumedMap() {
+    return {
+      "title": title,
+      "description": description,
+      "price": price
+    };
   }
 }
