@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/tabs/home_tab.dart';
 import 'package:loja_virtual/tabs/products_tab.dart';
+import 'package:loja_virtual/widgets/cart_button.dart';
 import 'package:loja_virtual/widgets/custom_drawer.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -9,33 +10,36 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageView(
-        controller: _pageController,
-        physics: NeverScrollableScrollPhysics(),
-        children: [
-          Scaffold(
-            drawer: CustomDrawer(_pageController),
-            body: HomeTab(),
+      controller: _pageController,
+      physics: NeverScrollableScrollPhysics(),
+      children: [
+        Scaffold(
+          drawer: CustomDrawer(_pageController),
+          body: HomeTab(),
+          floatingActionButton: CartButton(),
+        ),
+        Scaffold(
+          appBar: AppBar(
+            title: Text("Produtos"),
+            centerTitle: true,
           ),
-          Scaffold(
-            appBar: AppBar(
-              title: Text("Produtos"),
-              centerTitle: true,
-            ),
-            drawer: CustomDrawer(_pageController),
-            body: ProductsTab(),
+          drawer: CustomDrawer(_pageController),
+          body: ProductsTab(),
+          floatingActionButton: CartButton(),
+        ),
+        Scaffold(
+          drawer: CustomDrawer(_pageController),
+          body: Container(
+            color: Colors.blueGrey,
           ),
-          Scaffold(
-            drawer: CustomDrawer(_pageController),
-            body: Container(color: Colors.blueGrey,),
+        ),
+        Scaffold(
+          drawer: CustomDrawer(_pageController),
+          body: Container(
+            color: Colors.yellow,
           ),
-          Scaffold(
-            drawer: CustomDrawer(_pageController),
-            body: Container(color: Colors.yellow,),
-          ),
-
-        ],
-      );
+        ),
+      ],
+    );
   }
 }
-
-

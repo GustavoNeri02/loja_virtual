@@ -12,11 +12,15 @@ class CartScreen extends StatelessWidget {
         title: Text("Meu Carrinho"),
         actions: [
           Container(
+            alignment: Alignment.center,
             padding: EdgeInsets.only(right: 8),
             child: ScopedModelDescendant<CartModel>(
                 builder: (context, child, model) {
-              //int p = model.products.length;
-              return Text("");
+              int p = model.products.length;
+              return Text(
+                "$p ${p == 1 ? "ITEM" : "ITENS"}",
+                style: TextStyle(fontSize: 17),
+              );
             }),
           )
         ],
