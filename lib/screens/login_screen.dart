@@ -35,6 +35,7 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text("Entrar"),
         centerTitle: true,
         actions: [
