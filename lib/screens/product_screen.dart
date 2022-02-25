@@ -1,7 +1,11 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:loja_virtual/datas/cart_product.dart';
 import 'package:loja_virtual/datas/product_data.dart';
+import 'package:loja_virtual/models/cart_model.dart';
+import 'package:loja_virtual/models/user_model.dart';
+import 'package:loja_virtual/screens/login_screen.dart';
 
 class ProductScreen extends StatefulWidget {
   ProductData product;
@@ -80,9 +84,9 @@ class _ProductScreenState extends State<ProductScreen> {
                     scrollDirection: Axis.horizontal,
                     children: widget.product.sizes.map((size) {
                       return GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           setState(() {
-                            widget.size = widget.size == size? "" : size;
+                            widget.size = widget.size == size ? "" : size;
                           });
                         },
                         child: Container(
@@ -91,7 +95,9 @@ class _ProductScreenState extends State<ProductScreen> {
                                   BorderRadius.all(Radius.circular(5)),
                               border: Border.all(
                                 width: 3,
-                                  color: size == widget.size ? primaryColor : Colors.grey.shade400,
+                                color: size == widget.size
+                                    ? primaryColor
+                                    : Colors.grey.shade400,
                               ),
                             ),
                             width: 50,
@@ -105,22 +111,46 @@ class _ProductScreenState extends State<ProductScreen> {
                 SizedBox(
                   height: 44,
                   child: ElevatedButton(
-                    onPressed: widget.size == "" ? null : (){},
+                    onPressed: widget.size == ""
+                        ? null
+                        : () {
+                            if (UserModel.of(context).isLoggedIn()) {
+                              //adicionar no carrinho
+                              CartProduct cartProduct = CartProduct();
+                              cartProduct.size = widget.size;
+                              cartProduct.quantity = 1;
+                              cartProduct.productId = widget.product.id;
+                              cartProduct.category = widget.product.category;
+
+                              CartModel.of(context).addCartItem(cartProduct);
+                            } else {
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(builder: (context) {
+                                return LoginScreen();
+                              }));
+                            }
+                          },
                     child: Text(
-                      "Adicionar ao carrinho",
+                      UserModel.of(context).isLoggedIn()
+                          ? "Adicionar ao carrinho"
+                          : "Entre Para Comprar",
                       style: TextStyle(fontSize: 18),
                     ),
-                    style: ElevatedButton.styleFrom(primary: widget.size == ""? Colors.grey: primaryColor),
+                    style: ElevatedButton.styleFrom(
+                        primary:
+                            widget.size == "" ? Colors.grey : primaryColor),
                   ),
                 ),
                 SizedBox(height: 16),
-                Text("Descrição:",
+                Text(
+                  "Descrição:",
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                Text(widget.product.description,
+                Text(
+                  widget.product.description,
                   style: TextStyle(fontSize: 16),
                 )
               ],
