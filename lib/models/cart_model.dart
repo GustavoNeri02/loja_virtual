@@ -47,7 +47,7 @@ class CartModel extends Model {
   void decProduct(CartProduct cartProduct){
     cartProduct.quantity--;
     Firestore.instance
-        .collection("users")
+        .collection("Users")
         .document(user.firebaseUser!.uid)
         .collection("cart")
         .document(cartProduct.cartId)
@@ -59,7 +59,7 @@ class CartModel extends Model {
   void incProduct(CartProduct cartProduct){
     cartProduct.quantity++;
     Firestore.instance
-        .collection("users")
+        .collection("Users")
         .document(user.firebaseUser!.uid)
         .collection("cart")
         .document(cartProduct.cartId)
@@ -69,12 +69,14 @@ class CartModel extends Model {
   }
 
   void _loadCartItems() async {
+
     QuerySnapshot query = await Firestore.instance
-        .collection("users")
+        .collection("Users")
         .document(user.firebaseUser!.uid)
         .collection("cart").getDocuments();
 
-    products = query.documents.map((e) => CartProduct.fromDocument(e)).toList();
+    products = query.documents.map((doc) => CartProduct.fromDocument(doc)).toList();
+
     notifyListeners();
   }
 

@@ -97,12 +97,10 @@ class CartTile extends StatelessWidget {
                 builder: (context, snapshot) {
 
                   if (snapshot.hasData && snapshot.data != null) {
-                    print("true");
                     cartProduct.productData =
                         ProductData.fromDocument(snapshot.data!);
                     return _buildContent();
                   } else {
-                    print("false");
                     return Container(
                       height: 70,
                       child: CircularProgressIndicator(),

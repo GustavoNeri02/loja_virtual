@@ -16,7 +16,7 @@ class CartProduct{
   CartProduct.fromDocument(DocumentSnapshot documentSnapshot) {
     cartId = documentSnapshot.documentID;
     category = documentSnapshot.data["category"];
-    productId = documentSnapshot.data["id"];
+    productId = documentSnapshot.data["productId"];
     quantity = documentSnapshot.data["quantity"];
     size = documentSnapshot.data["size"];
   }
