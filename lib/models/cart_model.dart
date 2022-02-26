@@ -24,16 +24,31 @@ class CartModel extends Model {
       ScopedModel.of<CartModel>(context);
 
   void addCartItem(CartProduct cartProduct) {
-    products.add(cartProduct);
-    Firestore.instance
-        .collection("Users")
-        .document(user.firebaseUser!.uid)
-        .collection("cart")
-        .add(cartProduct.toMap())
-        .then((doc) {
-      cartProduct.cartId = doc.documentID;
-    });
-    notifyListeners();
+
+    //Adicionar quantidade se produto ja contido no carrinho
+    bool rep = false;
+    products.forEach(
+      (prod) => {
+        if(prod.productId == cartProduct.productId && prod.size == cartProduct.size){
+          incProduct(prod),
+          rep = true,
+        }
+      }
+    );
+
+    //Adicionar novo produto ao carrinho
+    if(!rep){
+      products.add(cartProduct);
+      Firestore.instance
+          .collection("Users")
+          .document(user.firebaseUser!.uid)
+          .collection("cart")
+          .add(cartProduct.toMap())
+          .then((doc) {
+        cartProduct.cartId = doc.documentID;
+      });
+      notifyListeners();
+    }
   }
 
   void removeCartItem(CartProduct cartProduct) {
