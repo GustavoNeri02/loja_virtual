@@ -9,10 +9,10 @@ class CartTile extends StatelessWidget {
   final CartProduct cartProduct;
 
   CartTile(this.cartProduct);
-
   @override
   Widget build(BuildContext context) {
     Widget _buildContent() {
+      CartModel.of(context).updatePrices();
       return Row(
         children: [
           Container(
