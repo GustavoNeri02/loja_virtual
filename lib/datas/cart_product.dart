@@ -9,7 +9,7 @@ class CartProduct{
   late int quantity;
   late String size;
 
-  late ProductData productData;
+  late ProductData? productData;
 
   CartProduct();
 
@@ -19,6 +19,7 @@ class CartProduct{
     productId = documentSnapshot.data["productId"];
     quantity = documentSnapshot.data["quantity"];
     size = documentSnapshot.data["size"];
+    productData = null;
   }
 
   Map<String, dynamic> toMap(){

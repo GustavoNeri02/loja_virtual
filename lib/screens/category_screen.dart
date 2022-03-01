@@ -65,7 +65,7 @@ class CategoryScreen extends StatelessWidget {
                             itemBuilder: (context, index) {
                               ProductData data = ProductData.fromDocument(
                                   snapshot.data!.documents[index]);
-
+                              data.category = this.snapshot.documentID;
                               return ProductTile("List", data);
                             }),
                       ]);
