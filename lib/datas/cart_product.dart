@@ -11,7 +11,9 @@ class CartProduct{
 
   late ProductData? productData;
 
-  CartProduct();
+  CartProduct(){
+    productData = null;
+  }
 
   CartProduct.fromDocument(DocumentSnapshot documentSnapshot) {
     cartId = documentSnapshot.documentID;

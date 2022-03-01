@@ -13,7 +13,7 @@ class CartTile extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget _buildContent() {
       CartModel.of(context).updatePrices();
-      return Row(
+      return cartProduct.productData != null ? Row(
         children: [
           Container(
               height: 120,
@@ -82,7 +82,8 @@ class CartTile extends StatelessWidget {
             ),
           )
         ],
-      );
+      )
+      : Container(child: Center(child: CircularProgressIndicator(),),);
     }
 
     return Card(
