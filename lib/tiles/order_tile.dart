@@ -7,6 +7,11 @@ class OrderTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(child: Text(orderId),);
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+      child: Padding(
+        padding: EdgeInsets.all(8),
+      ),
+    );
   }
 }

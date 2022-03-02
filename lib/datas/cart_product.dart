@@ -30,7 +30,7 @@ class CartProduct{
       "category" : category,
       "productId" : productId,
       "quantity" : quantity,
-      //"product" : productData.toResumedMap()
+      "product" : productData!.toResumedMap()
     };
   }
 }
