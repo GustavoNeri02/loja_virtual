@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/models/user_model.dart';
 import 'package:loja_virtual/screens/login_screen.dart';
+import 'package:loja_virtual/screens/settings_screen.dart';
 import 'package:loja_virtual/tiles/drawer_tile.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -45,6 +46,18 @@ class CustomDrawer extends StatelessWidget {
                         "Flutter's\nclothing",
                         style: TextStyle(
                             fontSize: 34, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: IconButton(
+                        icon: Icon(Icons.settings),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => SettingsScreen(),
+                          ));
+                        },
                       ),
                     ),
                     Positioned(
