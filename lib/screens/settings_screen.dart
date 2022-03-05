@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:loja_virtual/models/user_model.dart';
-import 'package:loja_virtual/widgets/config_exp_tile.dart';
+import 'package:loja_virtual/widgets/config_list_tile.dart';
+import 'package:loja_virtual/widgets/config_singular_list_tile.dart';
+import 'package:loja_virtual/widgets/config_user_exp_tile.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -26,27 +28,52 @@ class SettingsScreen extends StatelessWidget {
           shadowColor: Colors.transparent,
           leading: Container(),
           leadingWidth: 0,
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Configurações",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 32,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "Configurações",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 32,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    "Informações da conta",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white.withOpacity(0.6),
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  child: CircleAvatar(
+                    radius: 32,
+                    backgroundColor: Colors.white,
+                    child: UserModel.of(context).isLoggedIn() &&
+                            UserModel.of(context).userData["image"] != null
+                        ? Image.network(
+                            UserModel.of(context).userData["image"],
+                            fit: BoxFit.cover,
+                          )
+                        : Icon(
+                            Icons.person,
+                            color: Colors.black,
+                          ),
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Text(
-                "Informações da conta",
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white.withOpacity(0.6),
-                ),
-              ),
+              )
             ],
           ),
         ),
@@ -76,11 +103,14 @@ class SettingsScreen extends StatelessWidget {
                           SizedBox(
                             height: 16,
                           ),
-                          ConfigExpTile(Icons.person_outline, "Nome"),
-                          ConfigExpTile(Icons.phone_outlined, "Telefone"),
-                          ConfigExpTile(Icons.email_outlined, "E-mail"),
+                          ConfigUserExpTile(Icons.person_outline, "Nome"),
+                          ConfigUserExpTile(Icons.phone_outlined, "Telefone"),
+                          ConfigUserExpTile(Icons.email_outlined, "E-mail"),
+                          ConfigUserExpTile(Icons.location_pin, "Endereço"),
+                          ConfigUserExpTile(Icons.password, "Redefinir Senha"),
                           SizedBox(
                             height: 30,
+                            child: Divider(),
                           ),
                           Text(
                             "Outros",
@@ -92,13 +122,13 @@ class SettingsScreen extends StatelessWidget {
                           SizedBox(
                             height: 16,
                           ),
-                          ConfigExpTile(
-                              Icons.notifications_outlined, "Notificações"),
-                          ConfigExpTile(
-                              Icons.remove_red_eye_outlined, "Aparência"),
-                          ConfigExpTile(
-                              Icons.headset_outlined, "Ajuda e Suporte"),
-                          ConfigExpTile(Icons.help_outline, "Sobre"),
+                          ConfigListTile(Icons.notifications_outlined,
+                              "Notificações", () {}),
+                          ConfigListTile(Icons.remove_red_eye_outlined,
+                              "Aparência", () {}),
+                          ConfigListTile(
+                              Icons.headset_outlined, "Ajuda e Suporte", () {}),
+                          ConfigListTile(Icons.help_outline, "Sobre", () {}),
                         ],
                       ),
                     ),
@@ -107,49 +137,7 @@ class SettingsScreen extends StatelessWidget {
                 SizedBox(
                   height: 12,
                 ),
-                InkWell(
-                  borderRadius: BorderRadius.circular(30.0),
-                  splashColor: Colors.red,
-                  highlightColor: Colors.transparent,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            ListTileTheme(
-                              contentPadding: EdgeInsets.zero,
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                    child: Icon(
-                                      Icons.power_settings_new,
-                                      color: Colors.redAccent,
-                                    ),
-                                    backgroundColor:
-                                        Colors.grey.withOpacity(0.08)),
-                                title: Text(
-                                  "Deletar Conta",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.redAccent,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  onTap: UserModel.of(context).firebaseUser == null ? () {
-                    UserModel.of(context).firebaseUser!.delete();
-                  } : null,
-                ),
+                ConfigSingularListTile(),
               ],
             ),
           ),
