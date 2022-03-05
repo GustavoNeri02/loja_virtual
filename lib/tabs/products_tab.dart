@@ -17,6 +17,7 @@ class ProductsTab extends StatelessWidget {
                   }).toList(),
                   color: Colors.grey[500])
               .toList();
+          dividedTiles.sort((a,b) => b.toString().toLowerCase().compareTo(a.toString().toLowerCase()));
           return ListView(children: dividedTiles);
         }
       },
