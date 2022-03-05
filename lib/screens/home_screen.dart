@@ -22,7 +22,6 @@ class HomeScreen extends StatelessWidget {
         ),
         Scaffold(
           appBar: AppBar(
-            backgroundColor: Theme.of(context).primaryColor,
             title: Text("Produtos"),
             centerTitle: true,
           ),
